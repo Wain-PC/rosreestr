@@ -1,5 +1,5 @@
 {
-  "version": "1.0.0",
+  "version": "1.0.1",
   "name": "rosreestr_xml",
   "description": "XML to HTML converter for Rosreestr's EGRN excerpts",
   "author": "Wain-PC <wain-pc@mail.ru>",
