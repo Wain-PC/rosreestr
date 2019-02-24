@@ -1,6 +1,6 @@
 const puppeteer = require('puppeteer-core');
-const {resolve, basename} = require('path');
-const {readdirSync} = require('fs');
+const {resolve} = require('path');
+const {readdirSync, unlinkSync} = require('fs');
 const readFile = require('fs-readfile-promise');
 const writeFile = require('fs-writefile-promise');
 const Server = require('static-server');
@@ -20,12 +20,13 @@ const run = async (xmlDir = './xml') => {
     const re = /href="(.*?)Common.xsl"/g;
     const files = readdirSync(resolve(xmlDir)).filter(file => file.endsWith('.xml'));
     let outHtml = '';
+    const tmpPath = resolve('tmp.xml');
     for (let i = 0; i < files.length; i++) {
         const filePath = resolve(xmlDir, files[i]);
         console.log(filePath);
         const file = (await readFile(filePath)).toString('utf-8').replace(re, 'href="/Common.xsl"');
-        await writeFile(filePath, file);
-        await page.goto(`http://localhost:3000/xml/${basename(filePath)}`);
+        await writeFile(tmpPath, file);
+        await page.goto(`http://localhost:3000/tmp.xml`);
         if (i === 0) {
             const headHandle = await page.$('head');
             const head = await page.evaluate(head => head.innerHTML, headHandle);
@@ -39,6 +40,7 @@ const run = async (xmlDir = './xml') => {
         outHtml += body;
     }
     outHtml = `<html lang="ru">${outHtml}</html>`;
+    unlinkSync(tmpPath);
     await writeFile(resolve('out.html'), outHtml);
     await browser.close();
     server.stop();
