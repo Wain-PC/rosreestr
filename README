@@ -16,12 +16,12 @@ This tool requires Google Chrome to be installed locally (preferably v.62 or hig
 
 ### CLI
 
-`rosreestr path/to/folder/with/xmls dist.html --chrome /path/to/chrome/binary/chrome.exe`
+`rosreestr_xml path/to/folder/with/xmls dist.html --chrome /path/to/chrome/binary/chrome.exe`
 
 ### Node.JS
 
 ````javascript
-const rosreestr = require('rosreestr');
+const rosreestr = require('rosreestr_xml');
 
 const htmlString = await rosreestr('/path/to/xml', {chrome: '/path/to/chrome/binary/chrome.exe'})
 ````
