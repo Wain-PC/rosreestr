@@ -12,7 +12,7 @@ const run = async (xmlDir = './xml') => {
         clearOnComplete: true
     }, cliProgress.Presets.shades_classic);
     var server = new Server({
-        rootPath: '.',
+        rootPath: __dirname,
         port: 3000,
         cors: '*'
     });
@@ -25,7 +25,7 @@ const run = async (xmlDir = './xml') => {
     const re = /href="(.*?)Common.xsl"/g;
     const files = readdirSync(resolve(xmlDir)).filter(file => file.endsWith('.xml'));
     let outHtml = '';
-    const tmpPath = resolve('tmp.xml');
+    const tmpPath = resolve(__dirname, 'tmp.xml');
     bar.start(files.length, 0);
     for (let i = 0; i < files.length; i++) {
         const filePath = resolve(xmlDir, files[i]);
