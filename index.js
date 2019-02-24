@@ -4,8 +4,13 @@ const {readdirSync, unlinkSync} = require('fs');
 const readFile = require('fs-readfile-promise');
 const writeFile = require('fs-writefile-promise');
 const Server = require('static-server');
+const cliProgress = require('cli-progress');
 
 const run = async (xmlDir = './xml') => {
+    const bar = new cliProgress.Bar({
+        stopOnComplete: true,
+        clearOnComplete: true
+    }, cliProgress.Presets.shades_classic);
     var server = new Server({
         rootPath: '.',
         port: 3000,
@@ -21,9 +26,9 @@ const run = async (xmlDir = './xml') => {
     const files = readdirSync(resolve(xmlDir)).filter(file => file.endsWith('.xml'));
     let outHtml = '';
     const tmpPath = resolve('tmp.xml');
+    bar.start(files.length, 0);
     for (let i = 0; i < files.length; i++) {
         const filePath = resolve(xmlDir, files[i]);
-        console.log(filePath);
         const file = (await readFile(filePath)).toString('utf-8').replace(re, 'href="/Common.xsl"');
         await writeFile(tmpPath, file);
         await page.goto(`http://localhost:3000/tmp.xml`);
@@ -38,6 +43,7 @@ const run = async (xmlDir = './xml') => {
         const body = await page.evaluate(body => body.innerHTML, bodyHandle);
         await bodyHandle.dispose();
         outHtml += body;
+        bar.update(i+1);
     }
     outHtml = `<html lang="ru">${outHtml}</html>`;
     unlinkSync(tmpPath);
