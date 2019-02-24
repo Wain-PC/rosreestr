@@ -24,7 +24,8 @@ const run = async (xmlDir = './xml') => {
     const page = await browser.newPage();
     const re = /href="(.*?)Common.xsl"/g;
     const files = readdirSync(resolve(xmlDir)).filter(file => file.endsWith('.xml'));
-    let outHtml = '';
+    let headHtml = '';
+    let bodyHtml = '';
     const tmpPath = resolve(__dirname, 'tmp.xml');
     bar.start(files.length, 0);
     for (let i = 0; i < files.length; i++) {
@@ -36,18 +37,19 @@ const run = async (xmlDir = './xml') => {
             const headHandle = await page.$('head');
             const head = await page.evaluate(head => head.innerHTML, headHandle);
             await headHandle.dispose();
-            outHtml += head;
+            headHtml += head;
         }
 
         const bodyHandle = await page.$('body');
         const body = await page.evaluate(body => body.innerHTML, bodyHandle);
         await bodyHandle.dispose();
-        outHtml += body;
+        bodyHtml += body;
         bar.update(i+1);
     }
-    outHtml = `<html lang="ru">${outHtml}</html>`;
+    const output = `<html lang="ru"><head>${headHtml}</head><body>${bodyHtml}</body></html>`;
     unlinkSync(tmpPath);
-    await writeFile(resolve('out.html'), outHtml);
+    await writeFile(resolve('out.html'), output);
+    console.log(`${files.length} XML files were processed`);
     await browser.close();
     server.stop();
 };
