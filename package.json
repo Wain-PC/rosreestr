@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "name": "rosreestr_converter",
+  "name": "rosreestr_xml",
   "description": "XML to HTML converter for Rosreestr's EGRN excerpts",
   "author": "Wain-PC <wain-pc@mail.ru>",
   "main": "index.js",
