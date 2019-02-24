@@ -7,10 +7,17 @@ const Server = require('static-server');
 const cliProgress = require('cli-progress');
 
 const run = async (xmlDir = './xml') => {
+    const files = readdirSync(resolve(xmlDir)).filter(file => file.endsWith('.xml'));
+    if(!files.length) {
+        console.log(`0 XML files were found in ${resolve(xmlDir)}, try another directory`);
+        return;
+    }
     const bar = new cliProgress.Bar({
         stopOnComplete: true,
         clearOnComplete: true
     }, cliProgress.Presets.shades_classic);
+
+    console.log(`Spinning up the web server...`);
     var server = new Server({
         rootPath: __dirname,
         port: 3000,
@@ -18,12 +25,12 @@ const run = async (xmlDir = './xml') => {
     });
     await new Promise(resolve => server.start(resolve));
 
+    console.log(`Launching Chrome...`);
     const browser = await puppeteer.launch({
         executablePath: 'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe'
     });
     const page = await browser.newPage();
     const re = /href="(.*?)Common.xsl"/g;
-    const files = readdirSync(resolve(xmlDir)).filter(file => file.endsWith('.xml'));
     let headHtml = '';
     let bodyHtml = '';
     const tmpPath = resolve(__dirname, 'tmp.xml');
@@ -54,4 +61,4 @@ const run = async (xmlDir = './xml') => {
     server.stop();
 };
 
-run();
+module.exports = run;
