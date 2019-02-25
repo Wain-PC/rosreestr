@@ -1,11 +1,12 @@
 {
-  "version": "1.0.2",
+  "version": "1.0.3",
   "name": "rosreestr_xml",
   "description": "XML to HTML converter for Rosreestr's EGRN excerpts",
   "author": "Wain-PC <wain-pc@mail.ru>",
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
+    "chrome-location": "^1.2.1",
     "cli-progress": "^2.1.1",
     "fs-readfile-promise": "^3.0.1",
     "fs-writefile-promise": "^3.0.2",

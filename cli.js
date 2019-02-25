@@ -15,8 +15,7 @@ const {file, path, chrome} = Yargs.command('$0 [path] [file]', 'Build HTML from 
             default: 'out.html'
         })
         .option('chrome', {
-            describe: 'Chrome binary location',
-            default: 'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe'
+            describe: 'Chrome binary location'
         })
 }).help().argv;
 

@@ -5,12 +5,12 @@ const readFile = require('fs-readfile-promise');
 const writeFile = require('fs-writefile-promise');
 const Server = require('static-server');
 const cliProgress = require('cli-progress');
+const chromeLocation = require('chrome-location');
 
 const run = async (xmlDir = '.', opts) => {
     const files = readdirSync(resolve(xmlDir)).filter(file => file.endsWith('.xml'));
     if(!files.length) {
-        console.log(`0 XML files were found in ${resolve(xmlDir)}, try another directory`);
-        return;
+        throw new Error(`0 XML files were found in ${resolve(xmlDir)}, try another directory`);
     }
     const bar = new cliProgress.Bar({
         stopOnComplete: true,
@@ -27,7 +27,7 @@ const run = async (xmlDir = '.', opts) => {
 
     console.log(`Launching Chrome...`);
     const browser = await puppeteer.launch({
-        executablePath: opts.chrome
+        executablePath: opts.chrome || chromeLocation
     });
     const page = await browser.newPage();
     const re = /href="(.*?)Common.xsl"/g;
