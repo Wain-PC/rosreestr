@@ -14,14 +14,14 @@ or just use `npx` to run without installing.
 
 This tool requires Google Chrome to be installed locally (preferably v.62 or higher).
 
-It will try its best to locate Chrome binary automatically on your system using [chrome-location](https://www.npmjs.com/package/chrome-location), but you can also pass it manually with `--chrome` flag (see examples below);
+It will try its best to locate Chrome binary automatically on your system using [chrome-location](https://www.npmjs.com/package/chrome-location), but you can also pass it manually with `--chrome` flag (see examples below).
 
 ## Usage
 
 ### CLI
 
 #### Simple
-Run `rosreestr_xml` in directory with XML files. It'll output
+Run `rosreestr_xml` in directory with XML files. It'll output `out.html` file into the current directory.
 
 #### Advanced
 `rosreestr_xml path/to/folder/with/xmls dist.html --chrome /path/to/chrome/binary/chrome.exe`
